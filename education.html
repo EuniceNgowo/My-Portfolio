@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education Hub - EcoWaste</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .education-container {
+            padding: 6rem 5% 2rem;
+            min-height: 100vh;
+            background: var(--light-color);
+        }
+
+        .education-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #1A237E, #303F9F);
+            padding: 4rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .education-header h1 {
+            font-size: 2.8rem;
+            color: #FFFFFF;
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .education-header p {
+            font-size: 1.2rem;
+            color: #FFFFFF;
+            max-width: 800px;
+            margin: 0 auto;
+            font-weight: 500;
+            line-height: 1.6;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            opacity: 0.95;
+        }
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 25px;
+            background: #FFFFFF;
+            color: #2C3E50;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid #2C3E50;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-btn:hover {
+            transform: translateY(-3px);
+            background: #2C3E50;
+            color: #FFFFFF;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-btn.active {
+            background: #2C3E50;
+            color: #FFFFFF;
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba(44, 62, 80, 0.3);
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .article-card {
+            background: #FFFFFF;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #E0E0E0;
+        }
+
+        .article-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .article-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 4px solid #2C3E50;
+        }
+
+        .article-content {
+            padding: 2rem;
+        }
+
+        .article-category {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+            color: #FFFFFF;
+        }
+
+        /* Category-specific colors */
+        .article-category.recycling {
+            background: #2C3E50;
+        }
+
+        .article-category.composting {
+            background: #2C3E50;
+        }
+
+        .article-category.reduction {
+            background: #2C3E50;
+        }
+
+        .article-title {
+            font-size: 1.5rem;
+            color: #2C3E50;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            line-height: 1.4;
+        }
+
+        .article-excerpt {
+            color: #546E7A;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #2C3E50;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: #1A237E;
+            gap: 1rem;
+        }
+
+        .read-more i {
+            transition: transform 0.3s ease;
+        }
+
+        .read-more:hover i {
+            transform: translateX(5px);
+        }
+
+        .video-section {
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .video-section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .video-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .video-thumbnail {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        }
+
+        .video-thumbnail iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-info {
+            padding: 1rem;
+        }
+
+        .video-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .video-description {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .education-container {
+                padding: 5rem 3% 1rem;
+            }
+
+            .education-header h1 {
+                font-size: 2rem;
+            }
+
+            .education-header p {
+                font-size: 1rem;
+            }
+
+            .category-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .education-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <img src="images/logo.png" alt="EcoWaste Logo" class="logo">
+            <h1>EcoWaste</h1>
+        </div>
+        <div class="nav-toggle" id="navToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="schedule.html">Schedule</a></li>
+            <li><a href="map.html">Map</a></li>
+            <li><a href="education.html" class="active">Learn</a></li>
+            <li><a href="report.html">Report</a></li>
+            <li><a href="login.html" class="btn-login">Login</a></li>
+        </ul>
+    </nav>
+
+    <div class="education-container">
+        <div class="education-header">
+            <h1>Learn About Waste Management</h1>
+            <p>Discover tips, guides, and best practices for responsible waste management and environmental sustainability.</p>
+        </div>
+
+        <div class="categories">
+            <button class="category-btn active" data-category="all">All</button>
+            <button class="category-btn" data-category="recycling">Recycling</button>
+            <button class="category-btn" data-category="composting">Composting</button>
+            <button class="category-btn" data-category="reduction">Reduction</button>
+            <button class="category-btn" data-category="sustainability">Sustainability</button>
+        </div>
+
+        <div class="articles-grid">
+            <article class="article-card">
+                <img src="images/recycling-guide.jpg" alt="Recycling Guide" class="article-image">
+                <div class="article-content">
+                    <span class="article-category recycling">Recycling</span>
+                    <h2 class="article-title">Complete Guide to Recycling</h2>
+                    <p class="article-excerpt">Learn about different types of recyclable materials and how to properly sort them for effective recycling.</p>
+                    <a href="articles/recycling-guide.html" class="read-more">
+                        Read More
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <article class="article-card">
+                <img src="images/composting.jpg" alt="Composting at Home" class="article-image">
+                <div class="article-content">
+                    <span class="article-category">Composting</span>
+                    <h2 class="article-title">Start Composting at Home</h2>
+                    <p class="article-excerpt">A beginner's guide to creating and maintaining a successful composting system in your backyard.</p>
+                    <a href="articles/composting-guide.html" class="read-more">
+                        Read More
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <article class="article-card">
+                <img src="images/zero-waste.jpg" alt="Zero Waste Living" class="article-image">
+                <div class="article-content">
+                    <span class="article-category">Reduction</span>
+                    <h2 class="article-title">Zero Waste Living Tips</h2>
+                    <p class="article-excerpt">Practical tips and strategies for reducing your waste footprint and moving towards a zero-waste lifestyle.</p>
+                    <a href="articles/zero-waste-guide.html" class="read-more">
+                        Read More
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+        </div>
+
+        <div class="video-section">
+            <h2>Educational Videos</h2>
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <iframe src="https://www.youtube.com/embed/0ZiD_Lb3Tm0" 
+                            title="Understanding Waste Segregation"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Understanding Waste Segregation</h3>
+                        <p class="video-description">Learn the basics of waste segregation and its importance.</p>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <iframe src="https://www.youtube.com/embed/egyNJ7xPyoQ" 
+                            title="Composting Made Easy"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Composting Made Easy</h3>
+                        <p class="video-description">Step-by-step guide to start composting at home.</p>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <iframe 
+                            src="https://www.youtube.com/embed/9f-UE3xel0U"
+                            title="Recycling Best Practices"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">Recycling Best Practices</h3>
+                        <p class="video-description">Expert tips for effective recycling.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Category filter functionality
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const articles = document.querySelectorAll('.article-card');
+
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                const category = button.dataset.category;
+                
+                articles.forEach(article => {
+                    const articleCategory = article.querySelector('.article-category').textContent.toLowerCase();
+                    if (category === 'all' || category === articleCategory) {
+                        article.style.display = 'block';
+                    } else {
+                        article.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Issues - EcoWaste</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .report-container {
+            padding: 6rem 5% 2rem;
+            min-height: 100vh;
+            background: var(--light-color);
+        }
+
+        .report-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #1A237E, #303F9F);
+            padding: 4rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .report-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+            pointer-events: none;
+        }
+
+        .report-header h1 {
+            font-size: 2.8rem;
+            color: #FFFFFF;
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .report-header p {
+            font-size: 1.2rem;
+            color: #FFFFFF;
+            max-width: 800px;
+            margin: 0 auto;
+            font-weight: 500;
+            line-height: 1.6;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            opacity: 0.95;
+            position: relative;
+        }
+
+        .report-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .report-form {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .form-group input[type="file"] {
+            padding: 0.5rem 0;
+            border: none;
+        }
+
+        .image-preview {
+            display: none;
+            max-width: 300px;
+            margin-top: 1rem;
+        }
+
+        .image-preview img {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .submit-btn {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .report-info {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .info-section {
+            margin-bottom: 2rem;
+        }
+
+        .info-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .info-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-section li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .info-section li:before {
+            content: '\f058';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        .emergency-contact {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 2rem;
+        }
+
+        .emergency-contact h3 {
+            color: #856404;
+            margin-bottom: 0.5rem;
+        }
+
+        .emergency-contact p {
+            color: #856404;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .report-content {
+                grid-template-columns: 1fr;
+            }
+
+            .report-header h1 {
+                font-size: 2rem;
+            }
+
+            .report-form, .report-info {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Status tracking styles */
+        .status-tracker {
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .status-tracker.active {
+            display: block;
+        }
+
+        .status-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .status-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #ddd;
+            z-index: 1;
+        }
+
+        .status-step {
+            position: relative;
+            z-index: 2;
+            background: var(--white);
+            padding: 0 1rem;
+            text-align: center;
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            background: #ddd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            color: var(--white);
+        }
+
+        .status-step.active .step-icon {
+            background: var(--primary-color);
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .status-step.active .step-label {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <img src="images/logo.png" alt="EcoWaste Logo" class="logo">
+            <h1>EcoWaste</h1>
+        </div>
+        <div class="nav-toggle" id="navToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="schedule.html">Schedule</a></li>
+            <li><a href="map.html">Map</a></li>
+            <li><a href="education.html">Learn</a></li>
+            <li><a href="report.html" class="active">Report</a></li>
+            <li><a href="login.html" class="btn-login">Login</a></li>
+        </ul>
+    </nav>
+
+    <div class="report-container">
+        <div class="report-header">
+            <h1>Report an Issue</h1>
+            <p>Help us maintain a clean environment by reporting waste management issues in your area.</p>
+        </div>
+
+        <div class="report-content">
+            <div class="report-form">
+                <form id="issueReportForm">
+                    <div class="form-group">
+                        <label for="issueType">Type of Issue*</label>
+                        <select id="issueType" required>
+                            <option value="">Select an issue type</option>
+                            <option value="illegal-dumping">Illegal Dumping</option>
+                            <option value="missed-collection">Missed Collection</option>
+                            <option value="damaged-bin">Damaged Bin</option>
+                            <option value="spillage">Waste Spillage</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Location*</label>
+                        <input type="text" id="location" required placeholder="Enter the address or location">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description*</label>
+                        <textarea id="description" required placeholder="Provide details about the issue"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="images">Upload Images</label>
+                        <input type="file" id="images" accept="image/*" multiple>
+                        <div id="imagePreview" class="image-preview"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact">Contact Number</label>
+                        <input type="tel" id="contact" placeholder="Your phone number for follow-up">
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Report</button>
+                </form>
+
+                <div class="status-tracker" id="statusTracker">
+                    <div class="status-steps">
+                        <div class="status-step active">
+                            <div class="step-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="step-label">Submitted</div>
+                        </div>
+                        <div class="status-step">
+                            <div class="step-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <div class="step-label">Under Review</div>
+                        </div>
+                        <div class="status-step">
+                            <div class="step-icon">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <div class="step-label">In Progress</div>
+                        </div>
+                        <div class="status-step">
+                            <div class="step-icon">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="step-label">Resolved</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="report-info">
+                <div class="info-section">
+                    <h2>What to Report</h2>
+                    <ul>
+                        <li>Illegal dumping of waste</li>
+                        <li>Missed waste collections</li>
+                        <li>Damaged or missing waste bins</li>
+                        <li>Waste spillage incidents</li>
+                        <li>Improper waste disposal</li>
+                    </ul>
+                </div>
+
+                <div class="info-section">
+                    <h2>Response Time</h2>
+                    <ul>
+                        <li>Emergency issues: Within 24 hours</li>
+                        <li>Standard issues: 2-3 business days</li>
+                        <li>Non-urgent matters: Within 5 business days</li>
+                    </ul>
+                </div>
+
+                <div class="emergency-contact">
+                    <h3>Emergency Contact</h3>
+                    <p>For urgent waste management issues, please call:</p>
+                    <p><strong>Hotline: 0800-WASTE (0800-92783)</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Image preview functionality
+        const imageInput = document.getElementById('images');
+        const imagePreview = document.getElementById('imagePreview');
+
+        imageInput.addEventListener('change', function() {
+            imagePreview.innerHTML = '';
+            imagePreview.style.display = 'block';
+
+            for (const file of this.files) {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        imagePreview.appendChild(img);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        // Form submission handling
+        const reportForm = document.getElementById('issueReportForm');
+        const statusTracker = document.getElementById('statusTracker');
+
+        reportForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Here you would typically send the form data to your backend
+            
+            // Show success message and status tracker
+            alert('Report submitted successfully! You can track the status below.');
+            statusTracker.classList.add('active');
+            
+            // Reset form
+            reportForm.reset();
+            imagePreview.style.display = 'none';
+            imagePreview.innerHTML = '';
+        });
+    </script>
+</body>
+</html> 
